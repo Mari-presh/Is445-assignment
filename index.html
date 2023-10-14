@@ -1,11 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>This is my assignment website!</title>
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.25.0/build/vega.min.js"
+        integrity="sha256-na2uPt+tUPV7GRVpc+/ezQj+lGwljIvOJifkmg8f3as=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.16.1/build/vega-lite.min.js"
+        integrity="sha256-yxS2NsAY/IBasuR7AxQmdq7FIl081I4HAJ8hYViypMM=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.23.0/build/vega-embed.min.js"
+        integrity="sha256-WPNDJAJy1+0leU+H5tqxb07nPsGRIPvlQxgodYqkHm0=" crossorigin="anonymous"></script>
 </head>
+
 <body>
     <p> This is my assignment website</p>
+    <div id="viz"></div>
+    <script>
+        var vlSpec = {
+            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+            "data": { "url": "https://vega.github.io/editor/data/movies.json" },
+            "hconcat": [
+                {
+                    "params": [{ "name": "myfirstparam", "select": "interval" }],
+                    "mark": "bar",
+                    "encoding": {
+                        "x": { "field": "IMDB Rating", "type": "quantitative", "bin": true },
+                        "y": { "aggregate": "mean", "field": "US Gross" }
+                    }
+                },
+                {
+                    "mark": "point",
+                    "encoding": {
+                        "x": { "field": "US Gross", "type": "quantitative" },
+                        "y": { "field": "Worldwide Gross", "type": "quantitative" },
+                        "color": { "value": "grey", "condition": { "param": "myfirstparam" } }
+                    }
+                }
+            ]
+
+        };
+        vegaEmbed("#viz", vlSpec);
+    </script>
+
+
 </body>
+
 </html>
